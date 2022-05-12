@@ -1,11 +1,24 @@
+name: build and deploy nodejs
 on:
   push:
-    branches:
-      - main
-
+    branches:  
+       - main  
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with: 
+          node-version: "12.x"
+      - name: Install dependencies
+        run: npm install
+
   deploy:
     name: Deploy to EC2 on master branch push
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
